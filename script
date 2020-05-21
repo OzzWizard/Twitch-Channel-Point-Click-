@@ -1,0 +1,50 @@
+// ==UserScript==
+// @name         Twitch Sadakat Puanı / Twitch CHANNEL POINTS Clicker
+// @namespace    fb.com/ozzwizard
+// @version      0.1
+// @description  Otomatik Twitch Sadakat Puanı Tıklayıcı / Twitch CHANNEL POINTS Clicker
+// @author       Musa Köşker
+// @match        https://www.twitch.tv/*
+// @grant        none
+// ==/UserScript==
+
+function xpath(path) {
+    var a = document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+    if(a ==null)
+    {
+       return null;
+    }
+    return  a;
+}
+
+var zaman = 900;
+var ilk = false;
+function tiklandi(yol){
+    if(ilk){
+    xpath(yol).placeholder = "Tahmini kalan süren : "+zaman;
+zaman = zaman -1;
+    }
+    else{
+        xpath(yol).placeholder = "Geri sayım için ilk +50 bekleniyor";
+    }
+}
+    setInterval(function(){
+    var a = xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div/div/div/section/div/div[5]/div[2]/div/button/p");
+    if(a == null)
+    {
+         if( xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div/div/div/section/div/div[5]/div[2]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button")!=null){
+        xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div/div/div/section/div/div[5]/div[2]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button").click();
+             ilk = true;
+             zaman = 900;
+         }
+        tiklandi("/html/body/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div/div/div/section/div/div[5]/div[2]/div[1]/div/div[2]/div/div/textarea");
+    }
+    else{
+       if( xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div/div/div/section/div/div[5]/div[3]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button")!=null){
+      xpath("/html/body/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div/div/div/section/div/div[5]/div[3]/div[2]/div[1]/div/div/div/div[2]/div/div/div/button").click();
+           ilk = true;
+        zaman = 900;
+       }
+      tiklandi("/html/body/div[1]/div/div[2]/div/div[2]/div/div[1]/div/div/div/div/section/div/div[5]/div[3]/div[1]/div/div[2]/div/div/textarea");
+    }
+},1000);
